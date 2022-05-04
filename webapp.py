@@ -1,6 +1,5 @@
 from flask import Flask, redirect, url_for, session, request, jsonify
 from flask_oauthlib.client import OAuth
-#from flask_oauthlib.contrib.apps import github #import to make requests to GitHub's OAuth
 from flask import render_template
 
 import pprint
@@ -53,7 +52,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('message.html', message='You were logged out')
+    return render_template('message.html', message='logged out')
 
 @app.route('/login/authorized')
 def authorized():
@@ -77,21 +76,14 @@ def authorized():
 
 @app.route('/page1')
 def renderPage1():
-    if 'user_data' in session:
-        user_data_pprint = pprint.pformat(session['user_data'])#format the user data nicely
-    else:
-        user_data_pprint = '';
-    return render_template('page1.html',dump_user_data=user_data_pprint)
+    return render-template('page1.html')
+    
 
 @app.route('/page2')
 def renderPage2():
     return render_template('page2.html')
 
-@app.route('/googleb4c3aeedcc2dd103.html')
-def render_google_verification():
-    return render_template('googleb4c3aeedcc2dd103.html')
 
-#the tokengetter is automatically called to check who is logged in.
 @github.tokengetter
 def get_github_oauth_token():
     return session['github_token']

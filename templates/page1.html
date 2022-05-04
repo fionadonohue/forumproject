@@ -5,9 +5,9 @@
 {% block content %}
   <h1>Best and Worst of the Met Gala</h1>
 
-<h2>CELEB 1</h2>
+<h2>KENDALL & KYLIE</h2>
 <img src="" alt="">
-<section id="app">
+<section id="app1">
     <div class="container">
       <div class="row">
         <div class="col-6">
@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-6">
       <textarea type="text" class="input" placeholder="Write a comment" v-model="newItem" @keyup.enter="addItem()"></textarea>
-          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Add Comment</button>
+          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Post</button>
         </div><!-- End col -->
       </div><!--End Row -->
     </div><!--End Container -->
@@ -32,7 +32,7 @@
 <h2>CELEB 2</h2>
 
 <img src="" alt="">
-<section id="app">
+<section id="app2">
     <div class="container">
       <div class="row">
         <div class="col-6">
@@ -44,7 +44,7 @@
       <div class="row">
         <div class="col-6">
       <textarea type="text" class="input" placeholder="Write a comment" v-model="newItem" @keyup.enter="addItem()"></textarea>
-          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Add Comment</button>
+          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Post</button>
         </div><!-- End col -->
       </div><!--End Row -->
     </div><!--End Container -->
@@ -55,7 +55,7 @@
 
 <h2>CELEB 3</h2>
 <img src="" alt="">
-<section id="app">
+<section id="app3">
     <div class="container">
       <div class="row">
         <div class="col-6">
@@ -67,12 +67,16 @@
       <div class="row">
         <div class="col-6">
       <textarea type="text" class="input" placeholder="Write a comment" v-model="newItem" @keyup.enter="addItem()"></textarea>
-          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Add Comment</button>
+          <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Post</button>
         </div><!-- End col -->
       </div><!--End Row -->
     </div><!--End Container -->
   </section><!-- end App -->
 
+  <br>
+  <br>
+  <br>
+  
 <pre>
 {{ dump_user_data }}
 </pre>

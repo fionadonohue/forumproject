@@ -77,6 +77,8 @@ def authorized():
 @app.route('/page1')
 def renderPage1():
     return render-template('page1.html')
+if ("Kendall") or ("Kylie") = ("KENDALL & KYLIE")app1
+    
     
 
 @app.route('/page2')

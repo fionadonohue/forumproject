@@ -23,16 +23,16 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #Remove once done debugging
     #base_url='https://api.github.com/',
     #request_token_url=None,
     #access_token_method='POST',
-    #access_token_url='https://github.com/login/oauth/access_token',  
+    #access_token_url='https://github.com/login/oauth/access_token',
     #authorize_url='https://github.com/login/oauth/authorize' #URL for github's OAuth login
 #)
 
 connection_string = os.environ["MONGO_CONNECTION_STRING"]
 db_name = os.environ["MONGO_DBNAME"]
-    
+
 client = pymongo.MongoClient(connection_string)
 db = client[db_name]
-collection = db['data'] 
+collection = db['data']
 
 
 @app.context_processor
@@ -43,9 +43,9 @@ def inject_logged_in():
 def home():
     return render_template('home.html')
 
-    
+
 @app.route('/login')
-def login():   
+def login():
     return github.authorize(callback=url_for('authorized', _external=True, _scheme='https')) #callback URL must match the pre-configured callback URL
 
 @app.route('/logout')
@@ -58,7 +58,7 @@ def authorized():
     resp = github.authorized_response()
     if resp is None:
         session.clear()
-        message = 'Access denied: reason=' + request.args['error'] + ' error=' + request.args['error_description'] + ' full=' + pprint.pformat(request.args)      
+        message = 'Access denied: reason=' + request.args['error'] + ' error=' + request.args['error_description'] + ' full=' + pprint.pformat(request.args)
     else:
         try:
             session['github_token'] = (resp['access_token'], '') #save the token to prove that the user logged in
@@ -73,11 +73,18 @@ def authorized():
     return render_template('message.html', message=message)
 
 
-@app.route('/page1')
+@app.route('/page1' methods = ["POST"])
 def renderPage1():
-    return render-template('page1.html')
-    
-    
+    if request.method == "POST":
+        comment1 = request.form["comment1"]
+        comment2 = request.form["comment2"]
+        comment3 = request.form["comment3"]
+
+        place = get_place(a2, a3, a4, a5, a6, a7, a8)
+        return render_template("response.html", city = place)
+    else:
+        return render_template("home.html")
+
 
 @app.route('/page2')
 def renderPage2():

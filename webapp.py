@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, session, request, jsonify
-#from flask_oauthlib.client import OAuth
+from flask_oauthlib.client import OAuth
 from flask import render_template
 
 import pprint
@@ -11,21 +11,21 @@ app = Flask(__name__)
 app.debug = False #Change this to False for production
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #Remove once done debugging
 
-#app.secret_key = os.environ['SECRET_KEY'] #used to sign session cookies
-#oauth = OAuth(app)
-#oauth.init_app(app) #initialize the app to be able to make requests for user information
+app.secret_key = os.environ['SECRET_KEY'] #used to sign session cookies
+oauth = OAuth(app)
+oauth.init_app(app) #initialize the app to be able to make requests for user information
 
-#github = oauth.remote_app(
-    #'github',
-    #consumer_key=os.environ['GITHUB_CLIENT_ID'], #your web app's "username" for github's OAuth
-    #consumer_secret=os.environ['GITHUB_CLIENT_SECRET'],#your web app's "password" for github's OAuth
-    #request_token_params={'scope': 'user:email'}, #request read-only access to the user's email.  For a list of possible scopes, see developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps
-    #base_url='https://api.github.com/',
-    #request_token_url=None,
-    #access_token_method='POST',
-    #access_token_url='https://github.com/login/oauth/access_token',  
-    #authorize_url='https://github.com/login/oauth/authorize' #URL for github's OAuth login
-#)
+github = oauth.remote_app(
+    'github',
+    consumer_key=os.environ['GITHUB_CLIENT_ID'], #your web app's "username" for github's OAuth
+    consumer_secret=os.environ['GITHUB_CLIENT_SECRET'],#your web app's "password" for github's OAuth
+    request_token_params={'scope': 'user:email'}, #request read-only access to the user's email.  For a list of possible scopes, see developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps
+    base_url='https://api.github.com/',
+    request_token_url=None,
+    access_token_method='POST',
+    access_token_url='https://github.com/login/oauth/access_token',  
+    authorize_url='https://github.com/login/oauth/authorize' #URL for github's OAuth login
+)
 
 connection_string = os.environ["MONGO_CONNECTION_STRING"]
 db_name = os.environ["MONGO_DBNAME"]
@@ -46,7 +46,7 @@ def home():
     
 @app.route('/login')
 def login():   
-    return github.authorize(callback=url_for('authorized', _external=True, _scheme='https')) #callback URL must match the pre-configured callback URL
+    return github.authorize(callback=url_for('authorized', _external=True, _scheme='http')) #callback URL must match the pre-configured callback URL
 
 @app.route('/logout')
 def logout():
@@ -84,9 +84,9 @@ def renderPage2():
     return render_template('page2.html')
 
 
-#@github.tokengetter
-#def get_github_oauth_token():
-    #return session['github_token']
+@github.tokengetter
+def get_github_oauth_token():
+    return session['github_token']
 
 
 if __name__ == '__main__':

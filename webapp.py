@@ -8,23 +8,23 @@ import pymongo
 
 app = Flask(__name__)
 
-app.debug = False #Change this to False for production
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #Remove once done debugging
+app.debug = False
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-app.secret_key = os.environ['SECRET_KEY'] #used to sign session cookies
+app.secret_key = os.environ['SECRET_KEY']
 oauth = OAuth(app)
-oauth.init_app(app) #initialize the app to be able to make requests for user information
+oauth.init_app(app)
 
 github = oauth.remote_app(
     'github',
-    consumer_key=os.environ['GITHUB_CLIENT_ID'], #your web app's "username" for github's OAuth
-    consumer_secret=os.environ['GITHUB_CLIENT_SECRET'],#your web app's "password" for github's OAuth
-    request_token_params={'scope': 'user:email'}, #request read-only access to the user's email.  For a list of possible scopes, see developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps
-    base_url ='https://api.github.com/',
+    consumer_key=os.environ['GITHUB_CLIENT_ID'],
+    consumer_secret=os.environ['GITHUB_CLIENT_SECRET'],
+    request_token_params={'scope': 'user:email'},
+    base_url='https://api.github.com/',
     request_token_url=None,
     access_token_method='POST',
     access_token_url='https://github.com/login/oauth/access_token',
-    authorize_url='https://github.com/login/oauth/authorize' #URL for github's OAuth login
+    authorize_url='https://github.com/login/oauth/authorize'
 )
 
 connection_string = os.environ["MONGO_CONNECTION_STRING"]
@@ -46,7 +46,7 @@ def home():
 
 @app.route('/login')
 def login():
-    return github.authorize(callback=url_for('authorized', _external=True, _scheme='https')) #callback URL must match the pre-configured callback URL
+    return github.authorize(callback=url_for('authorized', _external=True, _scheme='http'))
 
 @app.route('/logout')
 def logout():
@@ -58,18 +58,18 @@ def authorized():
     resp = github.authorized_response()
     if resp is None:
         session.clear()
-        message = 'Access denied: reason=' + request.args['error'] + ' error=' + request.args['error_description'] + ' full=' + pprint.pformat(request.args)
+        message = 'Access denied: reason=' + request.args['error'] + 'error=' + request.args['error_description'] + 'full=' + pprint.pformat(request.args)
     else:
         try:
-            session['github_token'] = (resp['access_token'], '') #save the token to prove that the user logged in
+            session['github_token'] = (resp['access_token'], '')
             session['user_data']=github.get('user').data
-            pprint.pprint(vars(github['/email']))
-            pprint.pprint(vars(github['api/2/accounts/profile/']))
+            #pprint.pprint(vars(github['/email']))
+            #pprint.pprint(vars(github['api/2/accounts/profile/']))
             message='You were successfully logged in as ' + session['user_data']['login'] + '.'
         except Exception as inst:
             session.clear()
             print(inst)
-            message='Unable to login, please try again.  '
+            message='Unable to login, please try again.'
     return render_template('message.html', message=message)
 
 

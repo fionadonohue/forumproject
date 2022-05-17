@@ -11,3 +11,30 @@
 	border-radius: 5px;
 	padding: 5px 10px
 }
+<<<<<<< HEAD
+=======
+
+h1{
+    text-align: center;
+    color: #FFEFDF;
+    font-size: 75px;
+}
+
+h4{
+    text-align: center;
+    color: #9A6733;
+    
+}
+
+body{
+	background-color: #ECD5BD;
+}
+    
+p.b{
+	margin: 370px;
+}    
+
+p.a{
+    margin: 10px;
+}
+>>>>>>> refs/remotes/origin/master

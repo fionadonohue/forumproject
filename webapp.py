@@ -64,8 +64,6 @@ def authorized():
         try:
             session['github_token'] = (resp['access_token'], '')
             session['user_data']=github.get('user').data
-            #pprint.pprint(vars(github['/email']))
-            #pprint.pprint(vars(github['api/2/accounts/profile/']))
             message='You were successfully logged in as ' + session['user_data']['login'] + '.'
         except Exception as inst:
             session.clear()
@@ -82,6 +80,7 @@ def renderPage1():
     if request.method=="GET":
         return render_template('page1.html')
     else:
+<<<<<<< HEAD
         if "comment1" in request.form and len(request.form["comment1"])>0:
 
             thisdict = {
@@ -185,6 +184,14 @@ def renderPage1():
             return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
 
 """
+=======
+        print(inst)
+        message=""
+        return render_template('page1.html')
+ 
+
+
+>>>>>>> e5e5349750b9327cfe697b10cefaeaf61d5f64aa
 @github.tokengetter
 def get_github_oauth_token():
     return session['github_token']

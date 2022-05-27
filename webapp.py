@@ -33,6 +33,7 @@ db_name = os.environ["MONGO_DBNAME"]
 client = pymongo.MongoClient(connection_string)
 db = client[db_name]
 collection = db['data']
+print(collection)
 
 
 @app.context_processor
@@ -70,22 +71,139 @@ def authorized():
             message='Unable to login, please try again.'
     return render_template('message.html', message=message)
 
+#print(collection.find_one(comment1))
 
-@app.route('/page1', methods = ["GET", "POST"])
+#comment1: Kendall and Kylie
+@app.route('/page1', methods = ["POST", "GET"])
 def renderPage1():
-    return render_template('page1.html')
-    if request.method == "POST":
-        comment1 = request.form["comment1"]
-        comment2 = request.form["comment2"]
-        comment3 = request.form["comment3"]
-
-        usercomment = get_comment(c2, c3, c4)
-        return ("usercomment")
+    #request.form["form"]
+    if request.method=="GET":
+        v1 = collection.find({"celebrity1":"Kendall"})
+        formatted_posts = ""
+        for post in v1:
+            formatted_posts = formatted_posts + post["username"] + post["post1"]
+        #c2 = collection.find_one("post2")
+        #c3 = collection.find_one("post3")
+        return render_template('page1.html', c1 = formatted_posts)
     else:
-        print(inst)
-        message=""
+        if "comment1" in request.form and len(request.form["comment1"])>0:
+            thisdict = {
+            "_id":{"$oid":"6273feb0beb82ed58395294a"},
+            "username":github.get('user').data['login'],
+            "post1":request.form["comment1"],
+        #"post2":"comment2",
+        #"post3":"comment3",
+            "celebrity1":"Kendall"
+        #"celebrity2":"Blake",
+        #"celebrity3":"Emma"
+            }
+            v1 = collection.find({"celebrity1":"Kendall"})
+            formatted_posts = ""
+            for post in v1:
+                formatted_posts = formatted_posts + post["username"] + post["post1"]
+
+            print(collection)
+            print(collection.find_one())
+
+            #collection.insert_one(thisdict)
+            return render_template('page1.html', c1 = formatted_posts)
+
+        elif "comment2" in request.form and len(request.form["comment2"])>0:
+            thisdict = {
+            "username":github.get('user').data,
+            #"post1":request.form["comment1"],
+            "post2":request.form["comment2"],
+            #"post3":"comment3",
+            #"celebrity1":"Kendall",
+            "celebrity2":"Blake"
+            #"celebrity3":"Emma"
+            }
+            print(collection)
+            print(collection.find_one())
+
+            collection.insert_one(thisdict)
+            return render_template('page1.html', c2 = formatted_posts)
+
+        elif "comment3" in request.form and len(request.form["comment3"])>0:
+            thisdict={
+            "username":github.get('user').data,
+            #"post1":request.form["comment1"],
+            #"post2":"comment2",
+            "post3":request.form["comment3"],
+            #"celebrity1":"Kendall",
+            #"celebrity2":"Blake",
+            "celebrity3":"Emma"
+            }
+            print(collection)
+            print(collection.find_one())
+
+            collection.insert_one(thisdict)
+            return render_template('page1.html')
+        else:
+            return render_template('page1.html')
+            flash('Error: An empty comment was submitted. Please type something in and try again')
+            #return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
+
+collection = db["data"]
+
+
+
+
+"""
+#comment2: Blake
+@app.route('/page1', methods = ["POST", "GET"])
+def renderPage1():
+    if request.method=="GET":
         return render_template('page1.html')
- 
+    else:
+    #request.form["form"]
+        if "comment2" in request.form:
+            thisdict = {
+            "username":github.get('user').data,
+            #"post1":request.form["comment1"],
+            "post2":request.form["comment2"],
+            #"post3":"comment3",
+            #"celebrity1":"Kendall",
+            "celebrity2":"Blake",
+            #"celebrity3":"Emma"
+            }
+
+            print(collection)
+            print(collection.find_one())
+
+            collection.insert_one(thisdict)
+            return render_template('page1.html')
+        else:
+            return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
+
+#comment3: Emma
+@app.route('/page1', methods = ["POST", "GET"])
+def renderPage1():
+    if request.method=="GET":
+        return render_template('page1.html')
+    else:
+        if "comment3" in request.form:
+            thisdict={
+            "username":github.get('user').data,
+            #"post1":request.form["comment1"],
+            #"post2":"comment2",
+            "post3":request.form["comment3"],
+            #"celebrity1":"Kendall",
+            #"celebrity2":"Blake",
+            "celebrity3":"Emma"
+            }
+            print(collection)
+            print(collection.find_one())
+
+            collection.insert_one(thisdict)
+            return render_template('page1.html')
+        else:
+            return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
+
+"""
+    #print(inst)
+    #message=""
+    #return render_template('page1.html')
 
 
 @github.tokengetter

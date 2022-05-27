@@ -33,7 +33,7 @@ db_name = os.environ["MONGO_DBNAME"]
 client = pymongo.MongoClient(connection_string)
 db = client[db_name]
 collection = db['data']
-#print(collection)
+print(collection)
 
 
 @app.context_processor
@@ -78,14 +78,18 @@ def authorized():
 def renderPage1():
     #request.form["form"]
     if request.method=="GET":
-        return render_template('page1.html')
+        v1 = collection.find({"celebrity1":"Kendall"})
+        formatted_posts = ""
+        for post in v1:
+            formatted_posts = formatted_posts + post["username"] + post["post1"]
+        #c2 = collection.find_one("post2")
+        #c3 = collection.find_one("post3")
+        return render_template('page1.html', c1 = formatted_posts)
     else:
-<<<<<<< HEAD
         if "comment1" in request.form and len(request.form["comment1"])>0:
-
             thisdict = {
-        #"_id":{"$oid":"6273feb0beb82ed58395294a"},
-            "username":github.get('user').data,
+            "_id":{"$oid":"6273feb0beb82ed58395294a"},
+            "username":github.get('user').data['login'],
             "post1":request.form["comment1"],
         #"post2":"comment2",
         #"post3":"comment3",
@@ -93,11 +97,16 @@ def renderPage1():
         #"celebrity2":"Blake",
         #"celebrity3":"Emma"
             }
+            v1 = collection.find({"celebrity1":"Kendall"})
+            formatted_posts = ""
+            for post in v1:
+                formatted_posts = formatted_posts + post["username"] + post["post1"]
+
             print(collection)
             print(collection.find_one())
 
-            collection.insert_one(thisdict)
-            return render_template('page1.html')
+            #collection.insert_one(thisdict)
+            return render_template('page1.html', c1 = formatted_posts)
 
         elif "comment2" in request.form and len(request.form["comment2"])>0:
             thisdict = {
@@ -113,7 +122,7 @@ def renderPage1():
             print(collection.find_one())
 
             collection.insert_one(thisdict)
-            return render_template('page1.html')
+            return render_template('page1.html', c2 = formatted_posts)
 
         elif "comment3" in request.form and len(request.form["comment3"])>0:
             thisdict={
@@ -131,7 +140,15 @@ def renderPage1():
             collection.insert_one(thisdict)
             return render_template('page1.html')
         else:
-            return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
+            return render_template('page1.html')
+            flash('Error: An empty comment was submitted. Please type something in and try again')
+            #return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
+
+collection = db["data"]
+
+
+
+
 """
 #comment2: Blake
 @app.route('/page1', methods = ["POST", "GET"])
@@ -184,14 +201,11 @@ def renderPage1():
             return render_template('message.html', message='Error: An empty comment was submitted. Please type something in and try again!')
 
 """
-=======
-        print(inst)
-        message=""
-        return render_template('page1.html')
- 
+    #print(inst)
+    #message=""
+    #return render_template('page1.html')
 
 
->>>>>>> e5e5349750b9327cfe697b10cefaeaf61d5f64aa
 @github.tokengetter
 def get_github_oauth_token():
     return session['github_token']

@@ -11,11 +11,12 @@
       <a class="navbar-brand" href="/">Home</a>
     </div>
 
-    {% if logged_in %}
+
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         {% if logged_in %}
         <li><a href="/page1">Page 1</a></li>
+        {% endif %}
       </ul>
 
     <ul class="nav navbar-nav navbar-right">

@@ -3,12 +3,11 @@
 {% block title %}page1{% endblock %}
 
 {% block content %}
-  <h1>Best and Worst of the Met Gala</h1>
+<h1>Best and Worst of the Met Gala</h1>
 
-<h2>KENDALL & KYLIE</h2>
-<img src="kk.png" alt="kendall and kylie jenner at the met gala" width="100%">
+<h2>KENDALL and KYLIE</h2>
+<img src="kk.png" alt="kendall and kylie jenner at the met gala" width="50%">
 <form action="" name="form" method="post">
-
 <section id="app1">
     <div class="container">
       <div class="row">
@@ -16,8 +15,8 @@
           <div class="comment">
         <p v-for="items in item" v-text="items"></p>
           </div><!--End Comment-->
-          </div><!--End col -->
-          </div><!-- End row -->
+        </div><!--End col -->
+    </div><!-- End row -->
       <div class="row">
         <div class="col-6">
       <input type="text" name="comment1" class="input" placeholder="Write a comment" v-model="newItem" @keyup.enter="addItem()">
@@ -26,15 +25,17 @@
       </div><!--End Row -->
     </div><!--End Container -->
   </section><!-- end App -->
-
+  <br>
   <p> {{ c1 }} </p>
+
 <br>
 <hr size="1" width="100%" color="black">
 <br>
 
 <h2>BLAKE LIVELY</h2>
-
-<img src="bl.png" alt="blake lively at the met gala" class="b" style="float:left" width="100%">
+<br>
+<img src="bl.png" alt="blake lively at the met gala" class="b" style="float:left" width="50%">
+<br>
 <section id="app2">
     <div class="container">
       <div class="row">
@@ -52,16 +53,17 @@
       </div><!--End Row -->
     </div><!--End Container -->
   </section><!-- end App -->
-
-  <p> {{ c1 }} </p>
-
+  <br>
+  <p> {{ c2 }} </p>
 
 <br>
   <hr size="1" width="100%" color="black">
 <br>
 
 <h2>EMMA CHAMBERLAIN</h2>
-<img src="ec.png" class="b" alt="emma chamberlain at the met gala" width="100%">
+<br>
+<img src="ec.png" class="b" alt="emma chamberlain at the met gala" width="50%">
+<br>
 <section id="app3">
     <div class="container">
       <div class="row">
@@ -79,15 +81,10 @@
       </div><!--End Row -->
     </div><!--End Container -->
   </section><!-- end App -->
-
-  <p> {{ c1 }} </p>
-
+  <br>
+<p> {{ c3 }} </p>
 
 </form>
-  <br>
-  <br>
-  <br>
-
 
 <pre>
 {{ dump_user_data }}

@@ -93,14 +93,53 @@ def renderPage1():
 #if method = post (AFTER posting)
     #comment1/Kendall
     if request.method == "POST":
-        if len(request.form["comment1"])>0 or len(request.form["comment2"])>0 or len(request.form["comment3"])>0:
-    #and len(request.form["comment1"])>0:
+        if len(request.form["comment1"])>0:
             thisdict = {
             "username":github.get('user').data['login'],
             "post1":request.form["comment1"],
-            "celebrity1":"Kendall",
+            "celebrity1":"Kendall"
+            }
+            collection.insert_one(thisdict)
+            v1 = collection.find({"celebrity1":"Kendall"})
+            v2 = collection.find({"celebrity2":"Blake"})
+            v3 = collection.find({"celebrity3":"Emma"})
+
+            formatted_posts1 = ""
+            for post in v1:
+                formatted_posts1 = formatted_posts1 + post["username"] + Markup(": ")+ post["post1"] + Markup("<br>")
+            formatted_posts2 = ""
+            for post in v2:
+                formatted_posts2 = formatted_posts2 + post["username"] + Markup(": ")+ post["post2"] + Markup("<br>")
+            formatted_posts3 = ""
+            for post in v3:
+                formatted_posts3 = formatted_posts3 + post["username"] + Markup(": ")+ post["post3"] + Markup("<br>")
+            return render_template('page1.html', c1 = formatted_posts1, c2 = formatted_posts2, c3 = formatted_posts3)
+
+        if len(request.form["comment2"])>0:
+            thisdict = {
+            "username":github.get('user').data['login'],
             "post2":request.form["comment2"],
-            "celebrity2":"Blake",
+            "celebrity2":"Blake"
+            }
+            collection.insert_one(thisdict)
+            v1 = collection.find({"celebrity1":"Kendall"})
+            v2 = collection.find({"celebrity2":"Blake"})
+            v3 = collection.find({"celebrity3":"Emma"})
+
+            formatted_posts1 = ""
+            for post in v1:
+                formatted_posts1 = formatted_posts1 + post["username"] + Markup(": ")+ post["post1"] + Markup("<br>")
+            formatted_posts2 = ""
+            for post in v2:
+                formatted_posts2 = formatted_posts2 + post["username"] + Markup(": ")+ post["post2"] + Markup("<br>")
+            formatted_posts3 = ""
+            for post in v3:
+                formatted_posts3 = formatted_posts3 + post["username"] + Markup(": ")+ post["post3"] + Markup("<br>")
+            return render_template('page1.html', c1 = formatted_posts1, c2 = formatted_posts2, c3 = formatted_posts3)
+
+        if len(request.form["comment3"])>0:
+            thisdict = {
+            "username":github.get('user').data['login'],
             "post3":request.form["comment3"],
             "celebrity3":"Emma"
             }
